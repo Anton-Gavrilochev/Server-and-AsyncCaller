@@ -3,10 +3,10 @@ using System.Threading;
 
 namespace Server
 {
-    class AsynсCaller
+    class AsyncCaller
     {
         EventHandler eventHandler;
-        public void AsyncCaller(EventHandler eventHandler)
+        public AsyncCaller(EventHandler eventHandler)
         {
             this.eventHandler = eventHandler;
         }

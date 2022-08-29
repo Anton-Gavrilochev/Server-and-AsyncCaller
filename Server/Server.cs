@@ -12,6 +12,7 @@ namespace Server
             rwl.AcquireReaderLock(100000);
             try
             {
+                Thread.Sleep(1000); //Имитация задержки чтения
                 return count;
             }
             finally
@@ -25,11 +26,11 @@ namespace Server
             rwl.AcquireWriterLock(100000);
             try
             {
+                Thread.Sleep(10000); //Имитация задержки записи
                 count = value;
             }
             finally
             {
-                Thread.Sleep(5000);
                 rwl.ReleaseWriterLock();
             }
         }
