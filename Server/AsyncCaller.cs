@@ -3,15 +3,15 @@ using System.Threading;
 
 namespace Server
 {
-    class AsyncCaller
+    public class AsyncCaller
     {
-        EventHandler eventHandler;
+        private EventHandler eventHandler;
         public AsyncCaller(EventHandler eventHandler)
         {
             this.eventHandler = eventHandler;
         }
 
-        public bool Invoke(int timeOut, object? sender, EventArgs e)
+        public bool Invoke(int timeOut, object sender, EventArgs e)
         {
             Thread thread = new Thread(() => { eventHandler.Invoke(sender, e); });
             thread.Start();

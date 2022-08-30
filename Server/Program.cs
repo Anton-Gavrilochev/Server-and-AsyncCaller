@@ -6,34 +6,40 @@ namespace Server
 {
     class Program
     {
-        private static event EventHandler myEventHandler = null;
+        private static void MyEventHandler(object sender, EventArgs e)
+        {
+            Console.WriteLine("Начало хэндлера");
+            Thread.Sleep(5000);
+            Console.WriteLine("Конец хэндлера");
+        }
+
 
         static void Main(string[] args)
         {
             Console.WriteLine("Выберите задачу: \n(1) - count на \"сервере\"\n(2) - Полусинхронный вызов");
-            try
+            int number = Int32.Parse(Console.ReadLine());
+            switch (number)
             {
-                int number = Int32.Parse(Console.ReadLine());
-                switch (number)
-                {
-                    case 1: Task1(); break;
-                    case 2: Task2(); break;
-                    default: throw new Exception();
-                }
-            }
-            catch
-            {
-                Console.WriteLine("Такого задания нет!");
+                case 1: Task1(); break;
+                case 2: Task2(); break;
+                default: Console.WriteLine("Такого задания нет!"); break;
             }
         }
 
         private static void Task2()
         {
-            EventHandler h = new EventHandler(myEventHandler);
-
+            EventHandler h = new EventHandler(MyEventHandler);
             AsyncCaller ac = new AsyncCaller(h);
 
-            bool completedOK = ac.Invoke(5000, null, EventArgs.Empty);
+            Console.WriteLine("Таймаут 7 секунд, Поток 5 секунд");
+            bool completedOK = ac.Invoke(7000, null, EventArgs.Empty);
+            Console.WriteLine("completedOK: " + completedOK.ToString());
+
+            Console.WriteLine("\nТаймаут 2 секунд, Поток 5 секунд");
+            bool completedOK2 = ac.Invoke(2000, null, EventArgs.Empty);
+            Console.WriteLine("completedOK2: " + completedOK2.ToString());
+
+            Console.ReadLine();
         }
 
 
